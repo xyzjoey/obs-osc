@@ -1,4 +1,5 @@
 from .source_context import SourceContext
+from .scene_control import SceneControl
 
 
 def filter_set_enabled(source_name, filter_name, enabled):
@@ -76,3 +77,16 @@ def source_set_text(source_name, text):
             return
 
         source_context.set_text(text)
+
+
+def set_current_scene(scene_name):
+    with SourceContext.find_source_by_name(scene_name) as source_context:
+        if source_context is None:
+            print(f"obs.service.set_current_scene - Cannot find scene (scene_name={scene_name})")
+            return
+
+        if not source_context.is_scene():
+            print(f"obs.service.set_current_scene - Not a scene (scene_name={scene_name})")
+            return
+
+        SceneControl.set_current_scene(source_context)
