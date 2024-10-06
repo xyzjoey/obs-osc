@@ -125,3 +125,12 @@ def filter_set_enabled(address, *args):
     enabled = True if args[0] > 0 else False
 
     obs_service.filter_set_enabled(source_name, filter_name, enabled)
+
+
+@osc_route("/scene")
+def set_scene(address, *args):
+    if len(args) < 1:
+        print(f"osc.routes.set_scene - Expected 1 arg but get 0")
+        return
+
+    obs_service.set_current_scene(args[0])
