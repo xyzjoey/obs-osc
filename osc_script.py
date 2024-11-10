@@ -14,7 +14,7 @@ class ScriptContext:
 
 class ScriptUtils:
     @classmethod
-    def _recursive_reload_impl(cls, module, root_package_name, visited_modules=set()):
+    def _recursive_reload_impl(cls, module, root_package_name, visited_modules):
         if not module.__package__.startswith(root_package_name):
             return
         if module in visited_modules:
@@ -36,7 +36,8 @@ class ScriptUtils:
 
     @classmethod
     def _recursive_reload(cls, module):
-        return cls._recursive_reload_impl(module, module.__package__)
+        visited_modules = set()
+        return cls._recursive_reload_impl(module, module.__package__, visited_modules)
 
     @staticmethod
     def install_requirements():
